@@ -110,7 +110,7 @@ export class PedidoVenda {
     }
 
     /**
-     * Retorna o data do pedido.
+     * Retorna o valor do pedido.
      *
      * @returns {number} o valor do pedido 
      */
