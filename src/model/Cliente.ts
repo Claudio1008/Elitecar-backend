@@ -12,6 +12,7 @@ export class Cliente {
     private cpf: string;
     /* telefone do cliente */
     private telefone: string;
+    static listarClientes: any;
 
      /**
      * Construtor da classe Cliente

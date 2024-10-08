@@ -5,7 +5,7 @@ const router = Router();
 
 //criando uma rota principal para aplicação
 router.get("/", (req: Request, res: Response) => {
-    res.json({mensagem: "ola mundo!"});
+    res.json({mensagem: "ola mundo"});
 });
 
 //exportando as rotas
