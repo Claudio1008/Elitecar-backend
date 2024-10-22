@@ -1,131 +1,159 @@
+import { DatabaseModel } from "./DatabaseModel";
+
+const database = new DatabaseModel().pool;
+
 /**
- * classe que representa o pedido
+ * Classe que representa um Pedido de Venda.
  */
 export class PedidoVenda {
-
-    /* Atributos */
-    /* Identificador do pedido */
+    /**
+     * Identificador único do pedido de venda.
+     */
     private idPedido: number = 0;
-    /* identificador do carro */
+    /**
+     * Identificador do carro associado ao pedido de venda.
+     */
     private idCarro: number;
-    /* identificador do cliente */
+    /**
+     * Identificador do cliente associado ao pedido de venda.
+     */
     private idCliente: number;
-    /* data do pedido */
+    /**
+     * Data do pedido de venda.
+     */
     private dataPedido: Date;
-    /* valor do pedido */
+    /**
+     * Valor total do pedido.
+     */
     private valorPedido: number;
 
-     /**
-     * Construtor da classe Cliente
-
-     * @param idPedido id do pedido
-     * @param idCarro id do carro
-     * @param idCliente id do cliente
-     * @param dataPedido data do pedido
-     * @param valorPedido valor do pedido
+    /**
+     * Construtor da classe PedidoVenda.
+     * @param idCarro - Identificador do carro.
+     * @param idCliente - Identificador do cliente.
+     * @param dataPedido - Data do pedido.
+     * @param valorPedido - Valor do pedido.
      */
-    
-    
-    constructor(
-        idCarro: number,
-        idCliente: number,
-        dataPedido: Date,
-        valorPedido:number,
-    ) {
+    constructor(idCarro: number, idCliente: number, dataPedido: Date, valorPedido: number) {
         this.idCarro = idCarro;
         this.idCliente = idCliente;
         this.dataPedido = dataPedido;
         this.valorPedido = valorPedido;
     }
-    
-        /* Métodos get e set */
+
     /**
-     * Recupera o identificador do pedido
-     * @returns o identificador do pedido
+     * Obtém o identificador do pedido.
+     * @returns O identificador do pedido.
      */
     public getIdPedido(): number {
         return this.idPedido;
     }
 
     /**
-     * Atribui um valor ao identificador do Pedido
-     * @param idPedido novo identificado do Pedido
+     * Define o identificador do pedido.
+     * @param idPedido - Novo identificador do pedido.
      */
     public setIdPedido(idPedido: number): void {
         this.idPedido = idPedido;
     }
 
     /**
-     * Retorna o idCarro do pedido.
-     *
-     * @returns {number} o idCarro do pedido.
+     * Obtém o identificador do carro.
+     * @returns O identificador do carro.
      */
-    public getidCarro(): number {
+    public getIdCarro(): number {
         return this.idCarro;
     }
-    
+
     /**
-     * Define O idCarro do pedido.
-     * 
-     * @param idCarro - o idCarro do pedido a ser definido.
+     * Define o identificador do carro.
+     * @param idCarro - Novo identificador do carro.
      */
-    public setidCarro(idCarro: number): void {
+    public setIdCarro(idCarro: number): void {
         this.idCarro = idCarro;
     }
 
-        /**
-     * Retorna o idCliente do pedido.
-     *
-     * @returns {number} o idCliente do pedido.
+    /**
+     * Obtém o identificador do cliente.
+     * @returns O identificador do cliente.
      */
-    public getidCliente(): number {
+    public getIdCliente(): number {
         return this.idCliente;
     }
-    
+
     /**
-     * Define o idCliente do pedido.
-     * 
-     * @param idCliente - o idCliente do pedido a ser definido.
+     * Define o identificador do cliente.
+     * @param idCliente - Novo identificador do cliente.
      */
-    public setidCliente(idCliente: number): void {
+    public setIdCliente(idCliente: number): void {
         this.idCliente = idCliente;
     }
 
     /**
-     * Retorna o data do pedido.
-     *
-     * @returns {Date} o data do pedido.
+     * Obtém a data do pedido.
+     * @returns A data do pedido.
      */
-    public getdataPedido(): Date {
+    public getDataPedido(): Date {
         return this.dataPedido;
     }
-    
+
     /**
-     * Define o data do pedido.
-     * 
-     * @param dataPedido - o data do pedido a ser definido.
+     * Define a data do pedido.
+     * @param dataPedido - Nova data do pedido.
      */
-    public setdataPedido(dataPedido: Date): void {
+    public setDataPedido(dataPedido: Date): void {
         this.dataPedido = dataPedido;
     }
 
     /**
-     * Retorna o valor do pedido.
-     *
-     * @returns {number} o valor do pedido 
+     * Obtém o valor do pedido.
+     * @returns O valor do pedido.
      */
-    public getvalorPedido(): number {
+    public getValorPedido(): number {
         return this.valorPedido;
     }
-    
+
     /**
      * Define o valor do pedido.
-     * 
-     * @param valorPedido - o valor do pedido a ser definido.
+     * @param valorPedido - Novo valor do pedido.
      */
-    public setvalorPedido(valorPedido: number): void {
+    public setValorPedido(valorPedido: number): void {
         this.valorPedido = valorPedido;
     }
 
-}
+    /**
+     * Busca e retorna uma lista de pedidos de venda do banco de dados.
+     * @returns Um array de objetos do tipo `PedidoVenda` em caso de sucesso ou `null` se ocorrer um erro durante a consulta.
+     * 
+     * - A função realiza uma consulta SQL para obter todos os registros da tabela "pedido_venda".
+     * - Os dados retornados são utilizados para instanciar objetos da classe `PedidoVenda`.
+     * - Cada pedido de venda instanciado é adicionado a uma lista que será retornada ao final da execução.
+     * - Caso ocorra uma falha na consulta ao banco, a função captura o erro, exibe uma mensagem no console e retorna `null`.
+     */
+    static async listagemPedidos(): Promise<Array<PedidoVenda> | null> {
+        const listaDePedidos: Array<PedidoVenda> = [];
 
+        try {
+            const querySelectPedidos = `SELECT * FROM pedido_venda;`;
+            const respostaBD = await database.query(querySelectPedidos);
+
+            respostaBD.rows.forEach((linha) => {
+                const novoPedidoVenda = new PedidoVenda(
+                    linha.id_carro,
+                    linha.id_cliente,
+                    linha.data_pedido,
+                    parseFloat(linha.valor_pedido)
+                );
+
+                novoPedidoVenda.setIdPedido(linha.id_pedido);
+
+                listaDePedidos.push(novoPedidoVenda);
+            });
+
+            return listaDePedidos;
+        } catch (error) {
+            console.log('Erro ao buscar lista de pedidos');
+            return null;
+        }
+    }
+}
