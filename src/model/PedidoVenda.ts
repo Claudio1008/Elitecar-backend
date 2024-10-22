@@ -15,9 +15,9 @@ export class PedidoVenda {
     /* valor do pedido */
     private valorPedido: number;
 
-         /**
+     /**
      * Construtor da classe Cliente
-     * 
+
      * @param idPedido id do pedido
      * @param idCarro id do carro
      * @param idCliente id do cliente
