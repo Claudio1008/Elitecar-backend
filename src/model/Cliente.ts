@@ -217,4 +217,36 @@ export class Cliente {
             return false;
         }
     }
+
+    static async atualizarCliente(cliente: Cliente): Promise<boolean> {
+        try {
+            // query para fazer update de um cliente no banco de dados
+            const queryUpdateCliente = `UPDATE cliente
+                                        SET marca = '${cliente.getNome()}', 
+                                            modelo = '${cliente.getCpf()}', 
+                                            ano = '${cliente.getTelefone()}', 
+                                        WHERE id_cliente = ${cliente.getIdCliente()};`;
+
+            // executa a query no banco e armazena a resposta
+            const respostaBD = await database.query(queryUpdateCliente);
+
+            // verifica se a quantidade de linhas modificadas é diferente de 0
+            if (respostaBD.rowCount != 0) {
+                console.log(`Cliente atualizado com sucesso! ID do cliente: ${cliente.getIdCliente()}`);
+                // true significa que a atualização foi bem sucedida
+                return true;
+            }
+            // false significa que a atualização NÃO foi bem sucedida.
+            return false;
+
+            // tratando o erro
+        } catch (error) {
+            // imprime outra mensagem junto com o erro
+            console.log('Erro ao atualizar o cliente. Verifique os logs para mais detalhes.');
+            // imprime o erro no console
+            console.log(error);
+            // retorno um valor falso
+            return false;
+        }
+    }
 }
