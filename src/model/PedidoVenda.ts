@@ -204,4 +204,27 @@ export class PedidoVenda {
             return false;
         }
     }
+    static async removerPedido(idPedido: number): Promise<boolean> {
+        try {
+            const queryDeletePedido = `DELETE FROM pedido_venda WHERE id_Pedido = ${idPedido}`;
+
+            const respostaBD = await database.query(queryDeletePedido);
+
+            if(respostaBD.rowCount != 0) {
+                console.log(`Pedido removido com sucesso!. ID removido: ${idPedido}`);
+
+                return true;
+            }
+
+            return false;
+
+        } catch (error) {
+
+            console.log(`erro ao remover PedidoVenda . verifique os logs para mais detalhes,`);
+
+            console.log(error);
+
+            return false;
+        }
+    }
 }

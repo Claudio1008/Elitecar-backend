@@ -223,4 +223,30 @@ export class Carro {
             return false;
         }
     }
+
+    static async removerCarro(idCarro: number): Promise<boolean> {
+        try {
+            const queryDeleteCarro = `DELETE FROM carro WHERE id_carro = ${idCarro}`;
+
+            const respostaBD = await database.query(queryDeleteCarro);
+
+            if(respostaBD.rowCount != 0) {
+                console.log(`carro removido com sucesso!. ID removido: ${idCarro}`);
+
+                return true;
+            }
+
+            return false;
+
+        } catch (error) {
+
+            console.log(`erro ao remover carro . verifique os logs para mais detalhes,`);
+
+            console.log(error);
+
+            return false;
+        }
+    }
+    
 }
+

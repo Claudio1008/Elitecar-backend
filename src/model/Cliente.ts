@@ -140,7 +140,7 @@ export class Cliente {
             
             return listaDeClientes;
         } catch (error) {
-            console.log('Erro ao buscar lista de carros');
+            console.log('Erro ao buscar lista de Clientes');
             return null;
         }
     }
@@ -191,6 +191,29 @@ export class Cliente {
             // imprime o erro no console
             console.log(error);
             // retorno um valor falso
+            return false;
+        }
+    }
+    static async removerCliente(idCliente: number): Promise<boolean> {
+        try {
+            const queryDeleteCliente = `DELETE FROM Cliente WHERE id_Cliente = ${idCliente}`;
+
+            const respostaBD = await database.query(queryDeleteCliente);
+
+            if(respostaBD.rowCount != 0) {
+                console.log(`Cliente removido com sucesso!. ID removido: ${idCliente}`);
+
+                return true;
+            }
+
+            return false;
+
+        } catch (error) {
+
+            console.log(`erro ao remover Cliente . verifique os logs para mais detalhes,`);
+
+            console.log(error);
+
             return false;
         }
     }
