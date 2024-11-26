@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { PedidoVenda } from "../model/PedidoVenda";
 
-interface PedidoDTO {
+interface PedidoVendaDTO {
     dataPedido: Date,
     valorPedido: number,
     id_cliente: number,
@@ -57,7 +57,7 @@ export class PedidoVendaController extends PedidoVenda {
     static async novo(req: Request, res: Response): Promise<Response> {
         try {
             // recuperando informações do corpo da requisição e colocando em um objeto da interface CarroDTO
-            const pedidoRecebido: PedidoDTO = req.body;
+            const pedidoRecebido: PedidoVendaDTO = req.body;
 
             // instanciando um objeto do tipo pedidos com as informações recebidas
             const novoPedido = new PedidoVenda(
@@ -87,36 +87,35 @@ export class PedidoVendaController extends PedidoVenda {
     }
     static async remover(req: Request, res: Response): Promise<Response> {
         try {
-            // recuperando o id do PedidoVenda que será removido
-            const idPedido = parseInt(req.params.idPedidoVenda as string);
+            // recuperando o id do pedido que será removido
+            const idPedido = parseInt(req.params.idPedido as string);
 
-            // chamando a função de remoção de PedidoVenda
+            // chamando a função de remoção de pedido
             const respostaModelo = await PedidoVenda.removerPedido(idPedido);
 
             // verificando a resposta da função
             if (respostaModelo) {
                 // retornar uma mensagem de sucesso
-                return res.status(200).json({ mensagem: "PedidoVenda removido com sucesso!" });
+                return res.status(200).json({ mensagem: "Pedido removido com sucesso!" });
             } else {
                 // retorno uma mensagem de erro
-                return res.status(400).json({ mensagem: "Erro ao remover o PedidoVenda. Entre em contato com o administrador do sistema." })
+                return res.status(400).json({ mensagem: "Erro ao remover o pedido. Entre em contato com o administrador do sistema." })
             }
         } catch (error) {
             // lança uma mensagem de erro no console
-            console.log(`Erro ao remover um PedidoVenda. ${error}`);
+            console.log(`Erro ao remover um pedido. ${error}`);
 
             // retorna uma mensagem de erro há quem chamou a mensagem
-            return res.status(400).json({ mensagem: "Não foi possível remover o PedidoVenda. Entre em contato com o administrador do sistema." });
+            return res.status(400).json({ mensagem: "Não foi possível remover o pedido. Entre em contato com o administrador do sistema." });
         }
     }
-
     static async atualizar(req: Request, res: Response): Promise<Response> {
         try {
             // recuperando o id do pedido que será atualizado
             const idPedido = parseInt(req.params.idPedido as string);
 
             // recuperando as informações do pedido que serão atualizadas
-            const pedidoRecebido: PedidoDTO = req.body;
+            const pedidoRecebido: PedidoVendaDTO = req.body;
 
             // instanciando um objeto do tipo pedido com as informações recebidas
             const pedidoAtualizado = new PedidoVenda(pedidoRecebido.id_carro,
@@ -127,13 +126,13 @@ export class PedidoVendaController extends PedidoVenda {
             // setando o id do pedido que será atualizado
             pedidoAtualizado.setIdPedido(idPedido);
 
-            // chamando a função de atualização de pedido
+            // chamando a função de atualização de cliente
             const resposta = await PedidoVenda.atualizarPedido(pedidoAtualizado);
 
             // verificando a resposta da função
             if (resposta) {
                 // retornar uma mensagem de sucesso
-                return res.status(200).json({ mensagem: "pedido atualizado com sucesso!" });
+                return res.status(200).json({ mensagem: "Pedido atualizado com sucesso!" });
             } else {
                 // retorno uma mensagem de erro
                 return res.status(400).json({ mensagem: "Erro ao atualizar o pedido. Entre em contato com o administrador do sistema." })
